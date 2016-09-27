@@ -57,7 +57,7 @@ public class EclipseTemplateContext
         // takes such modifications into account
         reconcile(compilationUnit);
 
-        // apply source edits that are in templateBuffer
+        // apply source edits that are in templateBuffer 插入代码
         updateSource(templateBuffer, eclipseTemplate);
 
         // takes those last modifications into account
@@ -74,7 +74,7 @@ public class EclipseTemplateContext
         IDocument document = new Document(compilationUnit.getSource());
         int insertionOffset = eclipseTemplate.getInsertionOffset(globalContext);
 
-        document.replace(insertionOffset, 0, templateBuffer.getString());
+        document.replace(insertionOffset, 0, "\r\n\r\n " + templateBuffer.getString());
 
         compilationUnit.getBuffer().setContents(document.get());
     }
