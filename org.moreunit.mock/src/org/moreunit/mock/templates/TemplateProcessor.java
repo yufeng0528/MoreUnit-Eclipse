@@ -32,10 +32,10 @@ public class TemplateProcessor
             ICompilationUnit workingCopy = createWorkingCopy(testCaseCu);
 
             MockingContext context = contextFactory.createMockingContext(dependencies, classUnderTest, testType, workingCopy);
-            if(! context.hasDependenciesToMock())
-            {
-                throw new NoDependenciesToMockException(classUnderTest);
-            }
+            // if(! context.hasDependenciesToMock())
+            // {
+            // throw new NoDependenciesToMockException(classUnderTest);
+            // }
 
             context.prepareContext(mockingTemplate, this);
 

@@ -1,5 +1,9 @@
 package org.moreunit.mock.wizard;
 
+import static org.moreunit.mock.wizard.DependenciesTreeContentProvider.VisibleFields.ALL;
+import static org.moreunit.mock.wizard.DependenciesTreeContentProvider.VisibleFields.VISIBLE_TO_TEST_CASE_AND_INJECTABLE;
+import static org.moreunit.mock.wizard.DependenciesTreeContentProvider.VisibleFields.VISIBLE_TO_TEST_CASE_ONLY;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,10 +44,6 @@ import org.moreunit.mock.dependencies.DependencyInjectionPointStore;
 import org.moreunit.mock.preferences.Preferences;
 import org.moreunit.mock.preferences.TemplateStyleSelector;
 import org.moreunit.mock.wizard.DependenciesTreeContentProvider.VisibleFields;
-
-import static org.moreunit.mock.wizard.DependenciesTreeContentProvider.VisibleFields.ALL;
-import static org.moreunit.mock.wizard.DependenciesTreeContentProvider.VisibleFields.VISIBLE_TO_TEST_CASE_AND_INJECTABLE;
-import static org.moreunit.mock.wizard.DependenciesTreeContentProvider.VisibleFields.VISIBLE_TO_TEST_CASE_ONLY;
 
 /**
  * Mostly copied from org.eclipse.jdt.junit.wizards.NewTestCaseWizardPageTwo.
@@ -112,6 +112,20 @@ public class MockDependenciesWizardPage extends WizardPage implements INewTestCa
         GridData layoutForOneLineControls = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
         layoutForOneLineControls.horizontalSpan = 2;
 
+        showInjectableFieldsCheckbox = new Button(parent, SWT.CHECK);
+        showInjectableFieldsCheckbox.setText("Show injectable fields");
+        showInjectableFieldsCheckbox.setToolTipText("Check this box to display fields annotated with either @Inject, @Resource or @Autowired.");
+        showInjectableFieldsCheckbox.setLayoutData(layoutForOneLineControls);
+        showInjectableFieldsCheckbox.addSelectionListener(new SelectionAdapter()
+        {
+            @Override
+            public void widgetSelected(SelectionEvent e)
+            {
+                visibleFieldsChanged();
+            }
+        });
+        showInjectableFieldsCheckbox.setSelection(true);
+
         showAllFieldsCheckbox = new Button(parent, SWT.CHECK);
         showAllFieldsCheckbox.setText("Show all fields");
         showAllFieldsCheckbox.setToolTipText("Check this box to display all fields, including private, final and static ones.");
@@ -122,19 +136,6 @@ public class MockDependenciesWizardPage extends WizardPage implements INewTestCa
             public void widgetSelected(SelectionEvent e)
             {
                 showInjectableFieldsCheckbox.setEnabled(! showAllFieldsCheckbox.getSelection());
-                visibleFieldsChanged();
-            }
-        });
-
-        showInjectableFieldsCheckbox = new Button(parent, SWT.CHECK);
-        showInjectableFieldsCheckbox.setText("Show injectable fields");
-        showInjectableFieldsCheckbox.setToolTipText("Check this box to display fields annotated with either @Inject, @Resource or @Autowired.");
-        showInjectableFieldsCheckbox.setLayoutData(layoutForOneLineControls);
-        showInjectableFieldsCheckbox.addSelectionListener(new SelectionAdapter()
-        {
-            @Override
-            public void widgetSelected(SelectionEvent e)
-            {
                 visibleFieldsChanged();
             }
         });
@@ -351,6 +352,9 @@ public class MockDependenciesWizardPage extends WizardPage implements INewTestCa
         emptyLabel.setLayoutData(gd);
     }
 
+    /**
+     * 页面显示或不显示的时候触发
+     */
     public void setVisible(boolean visible)
     {
         super.setVisible(visible);

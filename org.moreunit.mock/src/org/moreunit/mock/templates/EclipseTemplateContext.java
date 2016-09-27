@@ -69,6 +69,15 @@ public class EclipseTemplateContext
         compilationUnit.reconcile(ICompilationUnit.NO_AST, false, null, null);
     }
 
+    /**
+     * 插入成员变量的代码
+     * 
+     * @param templateBuffer
+     * @param eclipseTemplate
+     * @throws JavaModelException
+     * @throws MockingTemplateException
+     * @throws BadLocationException
+     */
     private void updateSource(TemplateBuffer templateBuffer, EclipseTemplate eclipseTemplate) throws JavaModelException, MockingTemplateException, BadLocationException
     {
         IDocument document = new Document(compilationUnit.getSource());

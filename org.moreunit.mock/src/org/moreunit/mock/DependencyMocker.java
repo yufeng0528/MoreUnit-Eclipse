@@ -27,10 +27,10 @@ public class DependencyMocker
 
     public void mockDependencies(Dependencies dependencies, IType classUnderTest, IType testCase, String testType)
     {
-        if(dependencies.isEmpty())
-        {
-            return;
-        }
+        // if(dependencies.isEmpty())
+        // {
+        // return;
+        // }
 
         MockingTemplate template = getTemplate(classUnderTest.getJavaProject());
         if(template == null)
